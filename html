@@ -1,0 +1,300 @@
+<html>
+<head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <style>
+        @keyframes rain {
+            0% { background-position: 0 0; }
+            100% { background-position: 100% 100%; }
+        }
+        .rain-effect {
+            background-image: url('https://www.transparenttextures.com/patterns/transparent-rain.png');
+            animation: rain 1s linear infinite;
+        }
+        .rain-drop {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.5);
+            bottom: 100%;
+            animation: fall linear infinite;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        .wave {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
+            background-size: 50px 50px;
+            opacity: 0.5;
+            animation: wave 1.5s infinite linear;
+        }
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        .music-bar {
+            width: 8px;
+            height: 50px;
+            background: white;
+            border-radius: 4px;
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% { transform: scaleY(1); }
+            50% { transform: scaleY(0.5); }
+        }
+        .falling-icon {
+            position: absolute;
+            top: -50px;
+            font-size: 24px;
+            animation: fall 10s linear infinite;
+        }
+        @keyframes fall {
+            to {
+                transform: translateY(100vh);
+            }
+        }
+        .verified-badge {
+            position: absolute;
+            bottom: -5px;
+            right: -5px;
+            background-color: #1877F2;
+            color: white;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .fps-counter {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            color: white;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 5px;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .shadow-border {
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+    </style>
+</head>
+<body class="bg-black flex flex-col items-center justify-center min-h-screen rain-effect">
+    <div class="fps-counter" id="fps-counter">FPS: 0</div>
+    <div class="relative w-full h-full flex items-center justify-center">
+        <img alt="Collage of various dark-themed images and text" class="absolute w-full h-full object-cover" height="800" src="https://storage.googleapis.com/a1aa/image/QBMXTfAHRYguJpmF22a1n9FNDsHmA_3vts8qoMLkBo0.jpg" width="800"/>
+        <div class="relative bg-black bg-opacity-70 rounded-lg p-4 w-80 h-auto flex flex-col items-center justify-center space-y-8 shadow-border">
+            <!-- Song 1 -->
+            <div class="relative w-full h-40 mb-4">
+                <img alt="Cartoon character in a suit making an OK gesture" class="w-full h-full object-cover rounded-lg border-4 border-white shadow-border" height="160" src="https://storage.googleapis.com/a1aa/image/8YpB_cImcA2yxbRDr7rC9_e4bLAu1oBbgviKA7vfUqw.jpg" width="300"/>
+                <div class="verified-badge">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+            <div class="text-white text-center mb-2">
+                <p class="text-lg">Love Story</p>
+            </div>
+            <div class="flex items-center justify-between w-full text-white mb-2">
+                <span id="current-time-1" class="text-xs">00:00</span>
+                <span id="duration-1" class="text-xs">-00:00</span>
+            </div>
+            <div class="flex items-center justify-center w-full mb-2">
+                <button id="backward-1" class="text-white mx-2">
+                    <i class="fas fa-backward"></i>
+                </button>
+                <button id="play-pause-1" class="text-white mx-2">
+                    <i class="fas fa-play"></i>
+                </button>
+                <button id="forward-1" class="text-white mx-2">
+                    <i class="fas fa-forward"></i>
+                </button>
+            </div>
+            <div class="flex items-center justify-center w-full space-x-1">
+                <div class="music-bar" style="animation-duration: 0.5s;"></div>
+                <div class="music-bar" style="animation-duration: 0.75s;"></div>
+                <div class="music-bar" style="animation-duration: 1s;"></div>
+                <div class="music-bar" style="animation-duration: 0.75s;"></div>
+                <div class="music-bar" style="animation-duration: 0.5s;"></div>
+            </div>
+            <div class="absolute bottom-4 left-4 text-green-500 text-xs">
+                <i class="fab fa-spotify"></i> RikkSongs
+            </div>
+
+            <!-- Playlist -->
+            <div class="relative w-full mt-4">
+                <label for="playlist-order" class="text-white text-sm">Playlist:</label>
+                <select id="playlist-order" class="w-full mt-2 p-2 rounded bg-gray-800 text-white shadow-border">
+                    <option value="1">Love Story</option>
+                    <option value="2">Another Song</option>
+                    <option value="3">Song 3</option>
+                    <option value="4">Song 4</option>
+                </select>
+            </div>
+        </div>
+        <div class="absolute left-0 top-1/2 transform -translate-y-1/2">
+            <div class="w-1 h-24 bg-white animate-pulse"></div>
+            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
+            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
+        </div>
+        <div class="absolute right-0 top-1/2 transform -translate-y-1/2">
+            <div class="w-1 h-24 bg-white animate-pulse"></div>
+            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
+            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
+        </div>
+    </div>
+    <audio id="audio-1" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"></audio>
+    <audio id="audio-2" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"></audio>
+    <audio id="audio-3" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3"></audio>
+    <audio id="audio-4" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-4.mp3"></audio>
+    <script>
+        const audio1 = document.getElementById('audio-1');
+        const playPauseButton1 = document.getElementById('play-pause-1');
+        const currentTimeElement1 = document.getElementById('current-time-1');
+        const durationElement1 = document.getElementById('duration-1');
+        const backwardButton1 = document.getElementById('backward-1');
+        const forwardButton1 = document.getElementById('forward-1');
+
+        const audio2 = document.getElementById('audio-2');
+        const audio3 = document.getElementById('audio-3');
+        const audio4 = document.getElementById('audio-4');
+
+        const playlistOrder = document.getElementById('playlist-order');
+
+        let currentAudio = audio1;
+
+        playPauseButton1.addEventListener('click', () => {
+            if (currentAudio.paused) {
+                currentAudio.play();
+                playPauseButton1.innerHTML = '<i class="fas fa-pause"></i>';
+                startMusicBars();
+            } else {
+                currentAudio.pause();
+                playPauseButton1.innerHTML = '<i class="fas fa-play"></i>';
+                stopMusicBars();
+            }
+        });
+
+        currentAudio.addEventListener('timeupdate', () => {
+            const currentTime = formatTime(currentAudio.currentTime);
+            const duration = formatTime(currentAudio.duration - currentAudio.currentTime);
+            currentTimeElement1.textContent = currentTime;
+            durationElement1.textContent = `-${duration}`;
+        });
+
+        backwardButton1.addEventListener('click', () => {
+            currentAudio.currentTime -= 10;
+        });
+
+        forwardButton1.addEventListener('click', () => {
+            currentAudio.currentTime += 10;
+        });
+
+        playlistOrder.addEventListener('change', () => {
+            const selectedValue = playlistOrder.value;
+            stopAllAudio();
+            if (selectedValue === '1') {
+                currentAudio = audio1;
+            } else if (selectedValue === '2') {
+                currentAudio = audio2;
+            } else if (selectedValue === '3') {
+                currentAudio = audio3;
+            } else if (selectedValue === '4') {
+                currentAudio = audio4;
+            }
+            currentAudio.play();
+            playPauseButton1.innerHTML = '<i class="fas fa-pause"></i>';
+        });
+
+        function stopAllAudio() {
+            audio1.pause();
+            audio2.pause();
+            audio3.pause();
+            audio4.pause();
+            playPauseButton1.innerHTML = '<i class="fas fa-play"></i>';
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = Math.floor(seconds % 60);
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function startMusicBars() {
+            const bars = document.querySelectorAll('.music-bar');
+            bars.forEach(bar => {
+                bar.style.animationPlayState = 'running';
+            });
+        }
+
+        function stopMusicBars() {
+            const bars = document.querySelectorAll('.music-bar');
+            bars.forEach(bar => {
+                bar.style.animationPlayState = 'paused';
+            });
+        }
+
+        function playNextSong() {
+            const currentIndex = parseInt(playlistOrder.value);
+            const nextIndex = (currentIndex % 4) + 1;
+            playlistOrder.value = nextIndex;
+            playlistOrder.dispatchEvent(new Event('change'));
+        }
+
+        currentAudio.addEventListener('ended', () => {
+            setTimeout(playNextSong, 10000);
+        });
+
+        // Create falling icons
+        function createFallingIcons() {
+            const icons = ['❄️', '❄️', '🌸', '🍂', '🍁', '🍀', '🍉'];
+            const container = document.createElement('div');
+            container.classList.add('absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'overflow-hidden', 'pointer-events-none');
+            document.body.appendChild(container);
+
+            for (let i = 0; i < 50; i++) {
+                const icon = document.createElement('div');
+                icon.classList.add('falling-icon');
+                icon.textContent = icons[Math.floor(Math.random() * icons.length)];
+                icon.style.left = `${Math.random() * 100}vw`;
+                icon.style.animationDuration = `${Math.random() * 5 + 5}s`;
+                icon.style.animationDelay = `${Math.random() * 5}s`;
+                container.appendChild(icon);
+            }
+        }
+
+        createFallingIcons();
+
+        // FPS Counter
+        let lastFrameTime = performance.now();
+        let frameCount = 0;
+        const fpsCounter = document.getElementById('fps-counter');
+
+        function updateFPS() {
+            const now = performance.now();
+            frameCount++;
+            if (now - lastFrameTime >= 1000) {
+                const fps = frameCount;
+                fpsCounter.textContent = `FPS: ${fps}`;
+                frameCount = 0;
+                lastFrameTime = now;
+            }
+            requestAnimationFrame(updateFPS);
+        }
+
+        updateFPS();
+    </script>
+    <footer class="text-white text-center italic mt-4">
+        ©DevNgĐức
+    </footer>
+</body>
+</html>
