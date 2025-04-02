@@ -94,7 +94,6 @@
     <div class="relative w-full h-full flex items-center justify-center">
         <img id="background-image" alt="Collage of various dark-themed images and text" class="absolute w-full h-full object-cover" height="800" src="https://i.imgur.com/igXhJzK.png" width="800"/>
         <div class="relative bg-black bg-opacity-70 rounded-lg p-4 w-80 h-auto flex flex-col items-center justify-center space-y-8 shadow-border">
-            <!-- Trên Tình Bn Dưới Tềnh Êu -->
             <div class="relative w-full h-40 mb-4">
                 <img id="avatar-image" alt="Cartoon character in a suit making an OK gesture" class="w-full h-full object-cover rounded-lg border-4 border-white shadow-border" height="160" src="https://i.imgur.com/wsiZNbe.jpeg" width="300"/>
                 <div class="verified-badge">
@@ -102,7 +101,7 @@
                 </div>
             </div>
             <div class="text-white text-center mb-2">
-                <p class="text-lg">Love Story</p>
+                <p class="text-lg">Music Love Story</p>
             </div>
             <div class="flex items-center justify-between w-full text-white mb-2">
                 <span id="current-time-1" class="text-xs">00:00</span>
@@ -130,11 +129,10 @@
                 <i class="fab fa-spotify"></i> RikkSongs
             </div>
 
-            <!-- Playlist -->
             <div class="relative w-full mt-4">
                 <label for="playlist-order" class="text-white text-sm">Playlist:</label>
                 <select id="playlist-order" class="w-full mt-2 p-2 rounded bg-gray-800 text-white shadow-border">
-                    <option value="1">Love Story</option>
+                    <option value="1">Music Love Story</option>
                     <option value="2">Another Song</option>
                     <option value="3">Song 3</option>
                     <option value="4">Song 4</option>
@@ -254,7 +252,6 @@
             setTimeout(playNextSong, 10000);
         });
 
-        // Create falling icons
         function createFallingIcons() {
             const icons = ['❄️', '❄️', '🌸', '🍂', '🍁', '🍀', '🍉'];
             const container = document.createElement('div');
@@ -274,7 +271,6 @@
 
         createFallingIcons();
 
-        // FPS Counter
         let lastFrameTime = performance.now();
         let frameCount = 0;
         const fpsCounter = document.getElementById('fps-counter');
