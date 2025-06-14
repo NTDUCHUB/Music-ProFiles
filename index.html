@@ -2,6 +2,7 @@
 <head>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
         @keyframes rain {
             0% { background-position: 0 0; }
@@ -11,39 +12,13 @@
             background-image: url('https://www.transparenttextures.com/patterns/transparent-rain.png');
             animation: rain 1s linear infinite;
         }
-        .rain-drop {
-            position: absolute;
-            width: 2px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.5);
-            bottom: 100%;
-            animation: fall linear infinite;
-        }
-        @keyframes fall {
-            to {
-                transform: translateY(100vh);
-            }
-        }
-        .wave {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            height: 100px;
-            background: url('https://www.transparenttextures.com/patterns/45-degree-fabric-light.png');
-            background-size: 50px 50px;
-            opacity: 0.5;
-            animation: wave 1.5s infinite linear;
-        }
-        @keyframes wave {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-100%); }
-        }
         .music-bar {
-            width: 8px;
-            height: 50px;
+            width: 6px;
+            height: 40px;
             background: white;
             border-radius: 4px;
             animation: bounce 1s infinite;
+            animation-play-state: paused;
         }
         @keyframes bounce {
             0%, 100% { transform: scaleY(1); }
@@ -52,8 +27,11 @@
         .falling-icon {
             position: absolute;
             top: -50px;
-            font-size: 24px;
-            animation: fall 10s linear infinite;
+            font-size: 20px;
+            animation: fall linear infinite;
+            user-select: none;
+            pointer-events: none;
+            will-change: transform;
         }
         @keyframes fall {
             to {
@@ -83,38 +61,72 @@
             padding: 5px;
             border-radius: 5px;
             font-size: 14px;
+            z-index: 50;
         }
         .shadow-border {
             box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
         }
+        /* Responsive adjustments for mobile */
+        @media (max-width: 640px) {
+            body {
+                padding: 0 10px;
+            }
+            .music-bar {
+                width: 4px;
+                height: 30px;
+            }
+            #avatar-image {
+                height: 160px !important;
+            }
+            .relative.bg-black.bg-opacity-70.rounded-lg.p-6.w-full.flex.flex-col.items-center.justify-center.space-y-8.shadow-border.z-10 {
+                padding: 1.5rem 1.5rem 2rem 1.5rem;
+            }
+            .text-lg.sm\:text-xl.font-semibold {
+                font-size: 1.125rem; /* text-lg */
+            }
+            .flex.items-center.justify-center.w-full.mb-2.space-x-6.text-white.text-2xl.sm\:text-3xl button i {
+                font-size: 1.5rem; /* text-xl */
+            }
+            .absolute.bottom-4.left-4.text-green-500.text-xs.sm\:text-sm {
+                font-size: 0.75rem;
+            }
+            .fps-counter {
+                font-size: 12px;
+                padding: 4px;
+            }
+            .absolute.left-0.top-1\/2.transform.-translate-y-1\/2,
+            .absolute.right-0.top-1\/2.transform.-translate-y-1\/2 {
+                display: none;
+            }
+        }
     </style>
 </head>
-<body class="bg-black flex flex-col items-center justify-center min-h-screen rain-effect">
+<body class="bg-black flex flex-col items-center justify-center min-h-screen rain-effect relative overflow-hidden">
     <div class="fps-counter" id="fps-counter">FPS: 0</div>
-    <div class="relative w-full h-full flex items-center justify-center">
-        <img id="background-image" alt="Collage of various dark-themed images and text" class="absolute w-full h-full object-cover" height="800" src="https://i.imgur.com/igXhJzK.png" width="800"/>
-        <div class="relative bg-black bg-opacity-70 rounded-lg p-4 w-80 h-auto flex flex-col items-center justify-center space-y-8 shadow-border">
-            <div class="relative w-full h-40 mb-4">
-                <img id="avatar-image" alt="Cartoon character in a suit making an OK gesture" class="w-full h-full object-cover rounded-lg border-4 border-white shadow-border" height="160" src="https://i.imgur.com/wsiZNbe.jpeg" width="300"/>
-                <div class="verified-badge">
+    <div class="relative w-full max-w-md h-full flex items-center justify-center px-4 py-8">
+        <img id="background-image" alt="Collage of various dark-themed images and text with moody lighting and abstract shapes" class="absolute w-full h-full object-cover rounded-lg" height="800" src="https://i.imgur.com/igXhJzK.png" width="800"/>
+        <div class="relative bg-black bg-opacity-70 rounded-lg p-6 w-full flex flex-col items-center justify-center space-y-8 shadow-border z-10">
+            <div class="relative w-full h-40 sm:h-48 mb-4">
+                <img id="avatar-image" alt="Cartoon character in a suit making an OK gesture with confident smile and dark background" class="w-full h-full object-cover rounded-lg border-4 border-white shadow-border" height="192" src="https://i.imgur.com/wsiZNbe.jpeg" width="300"/>
+                <div class="verified-badge" aria-label="Verified badge">
                     <i class="fas fa-check"></i>
                 </div>
             </div>
             <div class="text-white text-center mb-2">
-                <p class="text-lg">Music Love Story</p>
+                <p class="text-lg sm:text-xl font-semibold">Music Love Story</p>
             </div>
-            <div class="flex items-center justify-between w-full text-white mb-2">
-                <span id="current-time-1" class="text-xs">00:00</span>
-                <span id="duration-1" class="text-xs">-00:00</span>
+            <div class="flex items-center justify-between w-full text-white mb-2 text-xs sm:text-sm font-mono">
+                <span id="current-time-1">00:00</span>
+                <span id="duration-1">-00:00</span>
             </div>
-            <div class="flex items-center justify-center w-full mb-2">
-                <button id="backward-1" class="text-white mx-2">
+            <div class="flex items-center justify-center w-full mb-2 space-x-6 text-white text-2xl sm:text-3xl">
+                <button id="backward-1" aria-label="Rewind 10 seconds" class="focus:outline-none focus:ring-2 focus:ring-white rounded">
                     <i class="fas fa-backward"></i>
                 </button>
-                <button id="play-pause-1" class="text-white mx-2">
+                <button id="play-pause-1" aria-label="Play or pause" class="focus:outline-none focus:ring-2 focus:ring-white rounded">
                     <i class="fas fa-play"></i>
                 </button>
-                <button id="forward-1" class="text-white mx-2">
+                <button id="forward-1" aria-label="Forward 10 seconds" class="focus:outline-none focus:ring-2 focus:ring-white rounded">
                     <i class="fas fa-forward"></i>
                 </button>
             </div>
@@ -125,13 +137,13 @@
                 <div class="music-bar" style="animation-duration: 0.75s;"></div>
                 <div class="music-bar" style="animation-duration: 0.5s;"></div>
             </div>
-            <div class="absolute bottom-4 left-4 text-green-500 text-xs">
-                <i class="fab fa-spotify"></i> RikkSongs
+            <div class="absolute bottom-4 left-4 text-green-500 text-xs sm:text-sm flex items-center space-x-1 select-none pointer-events-none">
+                <i class="fab fa-spotify text-lg"></i>
+                <span>RikkSongs</span>
             </div>
-
             <div class="relative w-full mt-4">
-                <label for="playlist-order" class="text-white text-sm">Playlist:</label>
-                <select id="playlist-order" class="w-full mt-2 p-2 rounded bg-gray-800 text-white shadow-border">
+                <label for="playlist-order" class="text-white text-sm sm:text-base font-semibold">Playlist:</label>
+                <select id="playlist-order" class="w-full mt-2 p-2 rounded bg-gray-800 text-white shadow-border focus:outline-none focus:ring-2 focus:ring-blue-500">
                     <option value="1">Music Love Story</option>
                     <option value="2">Another Song</option>
                     <option value="3">Song 3</option>
@@ -139,21 +151,11 @@
                 </select>
             </div>
         </div>
-        <div class="absolute left-0 top-1/2 transform -translate-y-1/2">
-            <div class="w-1 h-24 bg-white animate-pulse"></div>
-            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
-            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
-        </div>
-        <div class="absolute right-0 top-1/2 transform -translate-y-1/2">
-            <div class="w-1 h-24 bg-white animate-pulse"></div>
-            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
-            <div class="w-1 h-24 bg-white animate-pulse mt-2"></div>
-        </div>
     </div>
-    <audio id="audio-1" src="https://files.catbox.moe/20cmp0.mp4"></audio>
-    <audio id="audio-2" src="https://files.catbox.moe/zzzuhz.mp4"></audio>
-    <audio id="audio-3" src="https://files.catbox.moe/sgyot1.mp4"></audio>
-    <audio id="audio-4" src="https://files.catbox.moe/6qezt1.mp4"></audio>
+    <audio id="audio-1" src="https://files.catbox.moe/20cmp0.mp4" preload="metadata"></audio>
+    <audio id="audio-2" src="https://files.catbox.moe/zzzuhz.mp4" preload="metadata"></audio>
+    <audio id="audio-3" src="https://files.catbox.moe/sgyot1.mp4" preload="metadata"></audio>
+    <audio id="audio-4" src="https://files.catbox.moe/6qezt1.mp4" preload="metadata"></audio>
     <script>
         const audio1 = document.getElementById('audio-1');
         const playPauseButton1 = document.getElementById('play-pause-1');
@@ -161,18 +163,42 @@
         const durationElement1 = document.getElementById('duration-1');
         const backwardButton1 = document.getElementById('backward-1');
         const forwardButton1 = document.getElementById('forward-1');
-
-        const audio2 = document.getElementById('audio-2');
-        const audio3 = document.getElementById('audio-3');
-        const audio4 = document.getElementById('audio-4');
-
         const playlistOrder = document.getElementById('playlist-order');
 
-        let currentAudio = audio1;
+        const audios = [audio1, document.getElementById('audio-2'), document.getElementById('audio-3'), document.getElementById('audio-4')];
+        let currentAudioIndex = 0;
+        let currentAudio = audios[currentAudioIndex];
 
+        // Play next song in playlist
+        function playNextSong() {
+            currentAudio.pause();
+            stopMusicBars();
+            currentAudioIndex = (currentAudioIndex + 1) % audios.length;
+            currentAudio = audios[currentAudioIndex];
+            playlistOrder.value = (currentAudioIndex + 1).toString();
+            currentAudio.play().catch(() => {}); // catch to avoid unhandled promise rejection if autoplay blocked
+            playPauseButton1.innerHTML = '<i class="fas fa-pause"></i>';
+            startMusicBars();
+        }
+
+        // Play selected song from dropdown
+        playlistOrder.addEventListener('change', () => {
+            const selectedValue = parseInt(playlistOrder.value, 10) - 1;
+            if (selectedValue >= 0 && selectedValue < audios.length) {
+                currentAudio.pause();
+                stopMusicBars();
+                currentAudioIndex = selectedValue;
+                currentAudio = audios[currentAudioIndex];
+                currentAudio.play().catch(() => {});
+                playPauseButton1.innerHTML = '<i class="fas fa-pause"></i>';
+                startMusicBars();
+            }
+        });
+
+        // Play/pause toggle
         playPauseButton1.addEventListener('click', () => {
             if (currentAudio.paused) {
-                currentAudio.play();
+                currentAudio.play().catch(() => {});
                 playPauseButton1.innerHTML = '<i class="fas fa-pause"></i>';
                 startMusicBars();
             } else {
@@ -182,58 +208,40 @@
             }
         });
 
+        // Update time display
         currentAudio.addEventListener('timeupdate', () => {
+            if (isNaN(currentAudio.duration)) return;
             const currentTime = formatTime(currentAudio.currentTime);
             const duration = formatTime(currentAudio.duration - currentAudio.currentTime);
             currentTimeElement1.textContent = currentTime;
             durationElement1.textContent = `-${duration}`;
         });
 
+        // Backward 10 seconds
         backwardButton1.addEventListener('click', () => {
-            currentAudio.currentTime -= 10;
+            currentAudio.currentTime = Math.max(0, currentAudio.currentTime - 10);
         });
 
+        // Forward 10 seconds
         forwardButton1.addEventListener('click', () => {
-            currentAudio.currentTime += 10;
+            currentAudio.currentTime = Math.min(currentAudio.duration, currentAudio.currentTime + 10);
         });
 
-        playlistOrder.addEventListener('change', () => {
-            const selectedValue = playlistOrder.value;
-            stopAllAudio();
-            if (selectedValue === '1') {
-                currentAudio = audio1;
-            } else if (selectedValue === '2') {
-                currentAudio = audio2;
-            } else if (selectedValue === '3') {
-                currentAudio = audio3;
-            } else if (selectedValue === '4') {
-                currentAudio = audio4;
-            }
-            currentAudio.play();
-            playPauseButton1.innerHTML = '<i class="fas fa-pause"></i>';
-        });
-
-        function stopAllAudio() {
-            audio1.pause();
-            audio2.pause();
-            audio3.pause();
-            audio4.pause();
-            playPauseButton1.innerHTML = '<i class="fas fa-play"></i>';
-        }
-
+        // Format seconds to mm:ss
         function formatTime(seconds) {
+            if (isNaN(seconds) || seconds < 0) return "0:00";
             const minutes = Math.floor(seconds / 60);
             const secs = Math.floor(seconds % 60);
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
+        // Music bars animation control
         function startMusicBars() {
             const bars = document.querySelectorAll('.music-bar');
             bars.forEach(bar => {
                 bar.style.animationPlayState = 'running';
             });
         }
-
         function stopMusicBars() {
             const bars = document.querySelectorAll('.music-bar');
             bars.forEach(bar => {
@@ -241,55 +249,66 @@
             });
         }
 
-        function playNextSong() {
-            const currentIndex = parseInt(playlistOrder.value);
-            const nextIndex = (currentIndex % 4) + 1;
-            playlistOrder.value = nextIndex;
-            playlistOrder.dispatchEvent(new Event('change'));
-        }
-
-        currentAudio.addEventListener('ended', () => {
-            setTimeout(playNextSong, 10000);
+        // When current audio ends, play next song automatically
+        audios.forEach(audio => {
+            audio.addEventListener('ended', () => {
+                playNextSong();
+            });
         });
 
+        // Autoplay first song on page load (try, may be blocked by browser)
+        window.addEventListener('load', () => {
+            currentAudio.play().then(() => {
+                playPauseButton1.innerHTML = '<i class="fas fa-pause"></i>';
+                startMusicBars();
+            }).catch(() => {
+                // Autoplay blocked, keep play button as play icon
+                playPauseButton1.innerHTML = '<i class="fas fa-play"></i>';
+                stopMusicBars();
+            });
+        });
+
+        // Create falling icons effect (optimized for performance)
         function createFallingIcons() {
             const icons = ['❄️', '❄️', '🌸', '🍂', '🍁', '🍀', '🍉'];
             const container = document.createElement('div');
-            container.classList.add('absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'overflow-hidden', 'pointer-events-none');
+            container.classList.add('absolute', 'top-0', 'left-0', 'w-full', 'h-full', 'overflow-hidden', 'pointer-events-none', 'z-0');
             document.body.appendChild(container);
 
-            for (let i = 0; i < 50; i++) {
+            const iconCount = 30; // Reduced count for performance
+            for (let i = 0; i < iconCount; i++) {
                 const icon = document.createElement('div');
                 icon.classList.add('falling-icon');
                 icon.textContent = icons[Math.floor(Math.random() * icons.length)];
                 icon.style.left = `${Math.random() * 100}vw`;
                 icon.style.animationDuration = `${Math.random() * 5 + 5}s`;
                 icon.style.animationDelay = `${Math.random() * 5}s`;
+                icon.style.opacity = (Math.random() * 0.7 + 0.3).toFixed(2);
+                icon.style.willChange = 'transform';
                 container.appendChild(icon);
             }
         }
 
         createFallingIcons();
 
+        // FPS counter simplified to update every 2 seconds to reduce overhead
+        const fpsCounter = document.getElementById('fps-counter');
         let lastFrameTime = performance.now();
         let frameCount = 0;
-        const fpsCounter = document.getElementById('fps-counter');
-
         function updateFPS() {
             const now = performance.now();
             frameCount++;
-            if (now - lastFrameTime >= 1000) {
-                const fps = frameCount;
+            if (now - lastFrameTime >= 2000) {
+                const fps = Math.round((frameCount * 1000) / (now - lastFrameTime));
                 fpsCounter.textContent = `FPS: ${fps}`;
                 frameCount = 0;
                 lastFrameTime = now;
             }
             requestAnimationFrame(updateFPS);
         }
-
         updateFPS();
     </script>
-    <footer class="text-white text-center italic mt-4">
+    <footer class="text-white text-center italic mt-4 select-none px-2">
         ©DevNgĐức❄️🌸✅
     </footer>
 </body>
